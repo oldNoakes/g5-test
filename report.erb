@@ -1,0 +1,8 @@
+<% @results.each do |client_name, info| -%>
+<%= client_name %>
+<%= "Location Name".ljust(30) %><%= "Theme Name" %>
+<%   info.each do |location_name, theme| -%>
+<%= location_name.ljust(30) %><%= theme %>
+<%   end -%>
+
+<% end -%>

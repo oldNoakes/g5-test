@@ -1,18 +1,28 @@
 require 'highline/import'
 require 'platform-api'
 require 'rendezvous'
+require 'erb'
+require 'logger'
 
 class HerokuInfoExtractor
 
   def initialize(auth_token)
     @heroku = PlatformAPI.connect_oauth(auth_token)
+    @log = Logger.new(STDOUT)
   end
 
   def extract(appname_array)
     apps_to_extract_from = appname_array.empty? ? get_all_apps : appname_array
     apps_to_extract_from.inject({}) do |result, app|
+      @log.info "Querying application #{app}"
       result.merge(get_client_location_web_themes(app))
     end
+  end
+
+  def report(appname_array)
+    @results = extract(appname_array)
+    template = ERB.new(File.read('./report.erb'), nil, '-')
+    puts template.result(binding)
   end
 
   private
@@ -29,6 +39,7 @@ class HerokuInfoExtractor
   end
 
   def get_all_apps
+    @log.info "No apps provided, getting all apps attached to this account"
     # This could be expensive if you have 100 apps on the account - could limit it
     @heroku.app.list.map { |app| app["name"] }
   end
@@ -40,4 +51,4 @@ apps_input = ask( "Please provide apps in CSV format (empty will default to all 
 apps = apps_input.split(',').map(&:strip)
 
 extractor = HerokuInfoExtractor.new('ea33e132-4291-48ae-8e17-e58856cec4de')
-puts extractor.extract(apps)
+puts extractor.report(apps)
