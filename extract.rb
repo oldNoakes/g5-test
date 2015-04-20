@@ -50,5 +50,5 @@ apps_input = ask( "Please provide apps in CSV format (empty will default to all 
 
 apps = apps_input.split(',').map(&:strip)
 
-extractor = HerokuInfoExtractor.new('ea33e132-4291-48ae-8e17-e58856cec4de')
+extractor = HerokuInfoExtractor.new(auth)
 puts extractor.report(apps)
