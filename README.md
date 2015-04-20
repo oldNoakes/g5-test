@@ -66,3 +66,4 @@ Location.first.website.web_templates.all.find{ |temp| temp.web_theme }.web_theme
 
 * Not doing anything useful with the output other than dumping into a very basic report
 * Currently, if this process gets through 99% of the apps and then fails, you lose everything AND don't get any useful capture from the command failure -> should be hardened to cope with failures on individual apps and potentially capture the stderr from the remote box
+* Could potentially fork or thread this to improve performance
