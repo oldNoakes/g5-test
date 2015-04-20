@@ -29,6 +29,7 @@ The code connects to the heroku plaform api and does the following:
 1. Spin up a dyno against each app that runs a specific command to dump the requested info in JSON format to stdout on the heroku host
 2. Captures the rendezvous attachment URL from each API call and connects to it to grab the output into a StringIO object
 3. Parases the return JSON string back into a Hash object on the client side and merge is with any other existing hashes of info
+4. Wrote a very basic reporting mechanism - both the reporting mechanism and the extraction are public on the class since I think the raw data is likely more useful - the reporting was just put in to make it look nice on the command line
 
 Implemented using:
   * [Heroku platform-api gem](https://github.com/heroku/platform-api)
